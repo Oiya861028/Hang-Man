@@ -19,12 +19,23 @@ public class Main {
             default -> {
             }
         }
+        String dashes = generateDashes(holiday);
+        //Print the start of a game
+        System.out.println("<<<Hang Man Game>>>");
+        System.out.println(generateDashes(holiday));
 
-
-
-
-
-
+        int tries = 3;
+        while(tries>0){
+            System.out.println("Guess a letter in this word:");
+            String guess = sc.next();
+            if(guess.length()!=1){
+                System.out.println("Hey that wasn't 1 letter. Try again:");
+                guess = sc.next();
+            }
+            if(holiday.indexOf(guess)==-1){
+                System.out.println();
+            }
+        }
 
     }
     public static String generateDashes(String words){
@@ -49,5 +60,8 @@ public class Main {
             }
         }
         return dashes;
+    }
+    public static String updateDashes(String guess, String dashes, String word){
+
     }
 }
