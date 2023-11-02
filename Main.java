@@ -3,38 +3,54 @@ public class Main {
     public static Scanner sc = new Scanner(System.in);
     public static void main(String[] args){
         //Holidays
-        String s1 = "Eid";
-        String s2 = "Christmas";
-        String s3 = "Thanksgiving";
-        String s4 = "Hina Matsuri";
-        String s5 = "Qixi";
+        String s1 = "eid";
+        String s2 = "christmas";
+        String s3 = "thanksgiving";
+        String s4 = "hina matsuri";
+        String s5 = "qixi";
+        String playAgain = "1";
+        while(playAgain.equals("1")){
+            String holiday="";
+            switch((int) ((Math.random() * 5) + 1)){
+                case 1 -> holiday = s1;
+                case 2 -> holiday = s2;
+                case 3 -> holiday = s3;
+                case 4 -> holiday = s4;
+                case 5 -> holiday = s5;
+                default -> {
+                }
+            }
+            String dashes = generateDashes(holiday);
+            //Print the start of a game
+            System.out.println("<<<Hang Man Game>>>");
+            System.out.println(dashes);
 
-        String holiday="";
-        switch((int) ((Math.random() * 5) + 1)){
-            case 1 -> holiday = s1;
-            case 2 -> holiday = s2;
-            case 3 -> holiday = s3;
-            case 4 -> holiday = s4;
-            case 5 -> holiday = s5;
-            default -> {
-            }
-        }
-        String dashes = generateDashes(holiday);
-        //Print the start of a game
-        System.out.println("<<<Hang Man Game>>>");
-        System.out.println(generateDashes(holiday));
+            int tries = 3;
+            while(tries>=0){
+                System.out.println("Enter a letter:");
+                String guess = sc.next();
+                while((guess.length() != 1) || guess.equals(" ")) {
+                    System.out.println("Hey that wasn't 1 letter. Try again:");
+                    guess = sc.next();
+                }
+                if(holiday.contains(guess)){
+                    dashes = updateDashes(guess, dashes, holiday);
+                    System.out.println(dashes);
+                    if(dashes.equals(holiday)){
+                        System.out.println("You win!");
+                        break;
+                    }
+                } else{
+                    System.out.println(dashes);
+                    tries--;
+                    System.out.println("You have "+ tries + " left");
+                }
 
-        int tries = 3;
-        while(tries>0){
-            System.out.println("Guess a letter in this word:");
-            String guess = sc.next();
-            if(guess.length()!=1){
-                System.out.println("Hey that wasn't 1 letter. Try again:");
-                guess = sc.next();
             }
-            if(holiday.indexOf(guess)==-1){
-                System.out.println();
-            }
+            if(!(dashes.equals(holiday))) System.out.println("Too bad, you ran out of tries. The correct answer is: "+ holiday);
+            System.out.println("press 1 to play again, press any other key to quit:");
+            playAgain = sc.next();
+            System.out.println();
         }
 
     }
@@ -62,6 +78,10 @@ public class Main {
         return dashes;
     }
     public static String updateDashes(String guess, String dashes, String word){
-
+        while(word.contains(guess)){
+            dashes = dashes.substring(0,word.indexOf(guess))+ guess +dashes.substring(word.indexOf(guess)+1);
+            word = word.substring(0,word.indexOf(guess))+ " " +word.substring(word.indexOf(guess)+1);
+        }
+        return dashes;
     }
 }
